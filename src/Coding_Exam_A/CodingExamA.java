@@ -23,27 +23,35 @@ public class CodingExamA {
 		 */
 		int number = Integer.parseInt(JOptionPane.showInputDialog(null, "How many robots do you want?"));
 		String colour = JOptionPane.showInputDialog(null, "What color do you want the shapes to be?(RED | YELLOW | GREEN)").toLowerCase();
-		Color color = Color.black;
+		Color co = Color.black;
 		if(colour.equals("red")) {
-			color = Color.red;
+			co = Color.red;
 		} else if(colour.equals("yellow")) {
-			color = Color.yellow;
+			co = Color.yellow;
 		} else if(colour.equals("red")) {
-			color = Color.red;
+			co = Color.red;
 		}
 		int sides = Integer.parseInt(JOptionPane.showInputDialog(null, "How many sides do you want your shape to have?"));
-		
+		int angle = 360/sides;
+		Color color = co;
 		Thread robots = new Thread(()-> {
-			for (int i = 0; i < number; i++) {
+			for (int i1 = 0; i1 < number; i1++) {
+				int i = i1;
 				Thread threadI = new Thread(()-> {
-					Robot robotI = new Robot(100+(100*i),300);
+					Robot robotI = new Robot(50+(100*i),300);
 					robotI.setSpeed(10);
 					robotI.setPenColor(color);
 					robotI.penDown();
 					robotI.setPenWidth(3);
-					
+					robotI.hide();
+					for (int j = 0; j < sides; j++) {
+						robotI.move(5*(20-(sides+number)));
+						robotI.turn(angle);
+					}
 				});
+				threadI.start();
 			}
 		});
+		robots.start();
 	}
 }
